@@ -1,8 +1,8 @@
 # altV: Addon Map
 
-Enable custom map for altV server.
+Enable custom map and minimap with postal code for altV server.
 
-This is a port of the FiveM resource that has been fixed https://forum.cfx.re/t/free-release-postal-code-map-minimap-fixed/4882127
+This is a port of the FiveM resource: https://forum.cfx.re/t/free-release-postal-code-map-minimap-fixed/4882127
 
 ## Requirements
 
@@ -37,7 +37,7 @@ Since the Athena framework has a different approach to managing the altV server,
 2. Register the mod to the configuration located in `configs` folder (`dev|devtest|prod.json`), e.g.
     ```json
     "resources": [
-        # ...other resources
+        // ...other mods
         "mods/addon-map",
         "webviews",
         "core"
@@ -56,3 +56,13 @@ The `addon-map-zoom` plugin for Athena contains a command to adjust the zoom lev
 ## Issues
 
 1. Sometimes the radar/minimap does not shows the custom map correctly due to the known bug here: https://github.com/altmp/altv-issues/issues/956
+
+## Credits
+- [[FREE] [Release] Postal Code Map & Minimap FIXED](https://forum.cfx.re/t/free-release-postal-code-map-minimap-fixed/4882127)
+- [[Release] Postal Code Map & Minimap - New & Improved - v1.3](https://forum.cfx.re/t/release-postal-code-map-minimap-new-improved-v1-3/147458)
+- [FiveM Forum](https://forum.cfx.re/)
+
+## Links
+
+- [Athena Framework](https://athenaframework.com/)
+- [altV - GTA V Modification](https://altv.mp)
