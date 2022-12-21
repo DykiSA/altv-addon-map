@@ -1,3 +1,5 @@
+> **NOTE:** This addon might not work with the latest AltV **13.0.0** and Athena **4.0.0**. I am busy with the full time job, therefore it will not be updated soon. To contribute, please request a pull request or create an issue for a fix.
+
 # altV: Addon Map
 
 Enable custom map and minimap with postal code for altV server.
