@@ -1,5 +1,3 @@
-> **NOTE:** This addon might not work with the latest AltV **13.0.0** and Athena **4.0.0**. I am busy with the full time job, therefore it will not be updated soon. To contribute, please request a pull request or create an issue for a fix.
-
 # altV: Addon Map
 
 Enable custom map and minimap with postal code for altV server.
@@ -8,7 +6,9 @@ This is a port of the FiveM resource: https://forum.cfx.re/t/free-release-postal
 
 ## Requirements
 
-1. alt:V Server 12.11 (release)
+1. alt:V Server 14 (release)
+
+Also tested with Athena Framework v5
 
 ## Installation
 
@@ -18,13 +18,13 @@ Download this repository.
 
 1. Copy `resources/addon-map` and `resources/addon-map-zoom` into `resources` folder on your server.
 
-2. Add this resources to your `server.cfg` like below:
-    ```cfg
+2. Add this resources to your `server.toml` like below:
+    ```toml
     # ...other config
-    resources: [
+    resources = [
         # ...other resources
-        'addon-map'
-        'addon-map-zoom'
+        "addon-map-zoom",
+        "addon-map"
     ]
     ```
 
@@ -35,13 +35,12 @@ Download this repository.
 
 Since the Athena framework has a different approach to managing the altV server, the streamable and script resources are placed separately.
 
-1. Copy `resources/addon-map` to the `resources/mods` folder
-2. Register the mod to the configuration located in `configs` folder (`dev|devtest|prod.json`), e.g.
+1. Copy `resources/addon-map` to the `resources/mods` folder.
+2. Register the mod to the configuration located in `configs` folder (`dev|devtest|prod.json`), e.g.:
     ```json
     "resources": [
         // ...other mods
-        "mods/addon-map",
-        "webviews",
+        "addon-map",
         "core"
     ],
     ```
