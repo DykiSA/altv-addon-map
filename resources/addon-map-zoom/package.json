@@ -1,0 +1,33 @@
+{
+    "name": "addonmap",
+    "version": "1.0.0",
+    "description": "",
+    "main": "",
+    "scripts": {
+      "test": "tsc",
+      "preversion": "yarn run test",
+      "release": "yarn version --no-git-tag-version"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/DykiSA/altv-addon-map.git"
+    },
+    "keywords": [
+      "altmp",
+      "altv",
+      "node",
+      "node-module",
+      "js-module",
+      "gta",
+      "gta5",
+      "gtav"
+    ],
+    "author": "DykiSA",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/DykiSA/altv-addon-map/issues"
+    },
+    "homepage": "https://github.com/DykiSA/altv-addon-map/blob/main/README.md",
+    "type": "module"
+  }
+  

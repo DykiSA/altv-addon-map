@@ -1,6 +1,6 @@
 import * as alt from "alt-client";
 import * as native from "natives";
-import * as chat from 'chat';
+import * as chat from 'alt:chat';
 import { PluginConfig, zoomDataLevels } from "../shared/config.js";
 import { EventConstants } from "../shared/constants.js";
 
