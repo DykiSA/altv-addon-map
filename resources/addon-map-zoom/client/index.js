@@ -1,22 +1,23 @@
 import * as alt from "alt-client";
 import * as native from "natives";
+import * as chat from 'chat';
+import { PluginConfig, zoomDataLevels } from "../shared/config.js";
+import { EventConstants } from "../shared/constants.js";
 
-console.log('The addon-map-zoom client script has been loaded');
+const pluginAutors = PluginConfig.AUTHORS.length > 1
+  ? `${PluginConfig.AUTHORS.splice(0, -1).join(', ')} and ${PluginConfig.AUTHORS.splice(-1)}`
+  : PluginConfig.AUTHORS[0];
+alt.log(`[PLUGIN]: The ~lg~${PluginConfig.NAME} v${PluginConfig.VERSION} ~w~by ~lg~${pluginAutors} ~w~has been loaded!`);
 
-const player = alt.Player.local;
-const radarZoomLevel = 1100;
+let radarZoomLevel = 1100;
 let tickInterval;
+const player = alt.Player.local;
 
 // update map zoom level
-setMapZoomDataLevel('ZOOM_LEVEL_0', 0.96, 0.9, 0.08, 0.0, 0.0);
-setMapZoomDataLevel('ZOOM_LEVEL_1', 1.6, 0.9, 0.08, 0.0, 0.0);
-setMapZoomDataLevel('ZOOM_LEVEL_2', 8.6, 0.9, 0.08, 0.0, 0.0);
-setMapZoomDataLevel('ZOOM_LEVEL_3', 12.3, 0.9, 0.08, 0.0, 0.0);
-setMapZoomDataLevel('ZOOM_LEVEL_4', 22.3, 0.9, 0.08, 0.0, 0.0);
-setMapZoomDataLevel('ZOOM_LEVEL_GOLF_COURSE', 55.0, 0.0, 0.1, 2.0, 1.0);
-setMapZoomDataLevel('ZOOM_LEVEL_INTERIOR', 450.0, 0.0, 0.1, 1.0, 1.0);
-setMapZoomDataLevel('ZOOM_LEVEL_GALLERY', 4.5, 0.0, 0.0, 0.0, 0.0);
-setMapZoomDataLevel('ZOOM_LEVEL_GALLERY_MAXIMIZE', 11.0, 0.0, 0.0, 2.0, 3.0);
+zoomDataLevels.forEach(setMapZoomDataLevel);
+
+// listen event from server
+alt.onServer(EventConstants.RADAR_ZOOM_EVENT, setRadarZoomLevel);
 
 // start interval
 tickInterval = alt.setInterval(() => {
@@ -28,25 +29,35 @@ tickInterval = alt.setInterval(() => {
     // stop the interval if there is an error
     alt.clearInterval(tickInterval);
   }
-}, 1);
+}, 100);
 
 
 /**
  * setMapZoomDataLevel used to modify map zoom level
- * @param {string} level 
- * @param {number} zoomScale 
- * @param {number} zoomSpeed 
- * @param {number} scrollSpeed 
- * @param {number} tilesX 
- * @param {number} tilesY 
+ * @param {import("../shared/types/index").MapZoomConfig} mapZoomConfig 
  */
-function setMapZoomDataLevel(level, zoomScale, zoomSpeed, scrollSpeed, tilesX, tilesY) {
-  const zoomData = alt.MapZoomData.get(level);
-  zoomData.fZoomScale = zoomScale;
-  zoomData.fZoomSpeed = zoomSpeed;
-  zoomData.fScrollSpeed = scrollSpeed;
-  zoomData.vTilesX = tilesX;
-  zoomData.vTilesY = tilesY;
+function setMapZoomDataLevel(mapZoomConfig) {
+  const zoomData = alt.MapZoomData.get(mapZoomConfig.level);
+  zoomData.fZoomScale = mapZoomConfig.zoomScale;
+  zoomData.fZoomSpeed = mapZoomConfig.zoomSpeed;
+  zoomData.fScrollSpeed = mapZoomConfig.scrollSpeed;
+  zoomData.vTilesX = mapZoomConfig.tilesX;
+  zoomData.vTilesY = mapZoomConfig.tilesY;
+}
+
+/**
+ * setRadarZoomLevel used set the level of radar zoom variable
+ * @param {string} level level applied to radar zoom
+ */
+function setRadarZoomLevel(level) {
+  const [ok, intLevel] = native.stringToInt(level);
+  if (ok && intLevel >= 0 && intLevel <= 1400) {
+    radarZoomLevel = intLevel;
+  } else {
+    const msg = `Invalid zoom level parameter! Required integer between 0 to 1400, given '${level}'`;
+    console.error(msg);
+    chat.pushMessage(null, msg);
+  }
 }
 
 /**
@@ -58,6 +69,7 @@ function updateRadarZoomLevel() {
 
   // set radar zoom
   if (onFoot || insideVehicle) {
+    console.log('update radar zoom level to:', radarZoomLevel)
     native.setRadarZoom(radarZoomLevel);
   }
 }
