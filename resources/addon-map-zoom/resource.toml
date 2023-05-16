@@ -1,3 +1,8 @@
-client-files = [ 'client/*' ]
-client-main = 'client/index.js'
 type = 'js'
+main = 'server/index.js'
+client-main = 'client/index.js'
+client-files = [
+    'client/*',
+    'shared/*'
+]
+deps = ['chat']
