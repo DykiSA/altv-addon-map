@@ -1,8 +1,14 @@
 import * as alt from "alt-client";
 import * as native from "natives";
+import * as Athena from '@AthenaClient/api';
 import { EventConstants } from "../shared/constants";
-import { ZoomDataLevels } from "../shared/config";
+import { PluginConfig, zoomDataLevels } from "../shared/config";
 import { MapZoomConfig } from "../shared/types/MapZoomConfig";
+
+const pluginAutors = PluginConfig.AUTHORS.length > 1
+  ? `${PluginConfig.AUTHORS.splice(0, -1).join(', ')} and ${PluginConfig.AUTHORS.splice(-1)}`
+  : PluginConfig.AUTHORS[0];
+alt.log(`[PLUGIN]: The ~lg~${PluginConfig.NAME} v${PluginConfig.VERSION} ~w~by ~lg~${pluginAutors} ~w~has been loaded!`);
 
 let radarZoomLevel: number = 1100;
 let tickInterval: number;
@@ -13,7 +19,7 @@ const player = alt.Player.local;
  */
 function init(): void {
   // set map zoom level
-  ZoomDataLevels.forEach(setMapZoomDataLevel);
+  zoomDataLevels.forEach(setMapZoomDataLevel);
 
   tickInterval = alt.setInterval(() => {
     try {
@@ -24,15 +30,16 @@ function init(): void {
       // stop the tickInterval if there is an error
       alt.clearInterval(tickInterval);
     }
-  }, 1);
+  }, 100);
 
   // listen event from server
   alt.onServer(EventConstants.RADAR_ZOOM_EVENT, setRadarZoomLevel);
 }
 
 /**
-* setMapZoomDataLevel used to modify map zoom level
-*/
+ * setMapZoomDataLevel used to modify map zoom level
+ * @param zoomDataConfig 
+ */
 function setMapZoomDataLevel(zoomDataConfig: MapZoomConfig): void {
   const zoomData = alt.MapZoomData.get(zoomDataConfig.level);
   zoomData.fZoomScale = zoomDataConfig.zoomScale;
@@ -42,15 +49,24 @@ function setMapZoomDataLevel(zoomDataConfig: MapZoomConfig): void {
   zoomData.vTilesY = zoomDataConfig.tilesY;
 }
 
+/**
+ * setRadarZoomLevel used set the level of radar zoom variable
+ * @param level level applied to radar zoom
+ */
 function setRadarZoomLevel(level: string): void {
   const [ok, intLevel] = native.stringToInt(level);
-  if (ok) {
+  if (ok && intLevel >= 0 && intLevel <= 1400) {
     radarZoomLevel = intLevel;
   } else {
-    console.log(`Invalid zoom level! Required integer between 0 and 1400, received '${level}'`);
+    const msg = `Invalid zoom level parameter! Required integer between 0 to 1400, given '${level}'`;
+    console.error(msg);
+    Athena.systems.messenger.emit(msg);
   }
 }
 
+/**
+ * updateRadarZoomLevel used to update radar/minimap zoom level
+ */
 function updateRadarZoomLevel(): void {
   const insideVehicle = native.isPedInAnyVehicle(player, false);
   const onFoot = native.isPedOnFoot(player);
