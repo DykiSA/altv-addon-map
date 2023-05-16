@@ -1,6 +1,6 @@
 export const PluginConfig = {
   NAME: 'Addon Map Zoom',
-  VERSION: '1.0.0',
+  VERSION: '1.0.1',
   AUTHORS: ['DykiSA'],
 }
 
