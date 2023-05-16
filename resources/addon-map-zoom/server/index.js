@@ -1,5 +1,5 @@
 import * as alt from 'alt-server';
-import * as chat from 'chat';
+import * as chat from 'alt:chat';
 import { PluginConfig } from '../shared/config.js';
 import { EventConstants, CommandConstants } from "../shared/constants.js";
 
