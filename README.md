@@ -47,9 +47,9 @@ Since the Athena framework has a different approach to managing the altV server,
 3. Copy `athena-plugin/addon-map-zoom` to the `src/core/plugins`
 4. Enjoy!
 
-## Athena Framework Command
+## In-game Command
 
-The `addon-map-zoom` plugin for Athena contains a command to adjust the zoom level of the radar. This command is used for testing and debugging puprose only.
+The both altv resource and Athena plugin contains a command to adjust the zoom level of the radar. This command is used for testing and debugging puprose.
 
 1. Open the command box (default is **T** on keyboard)
 2. Type `/radarzoom [level]` (the value of level ranges from 0 to 1400 e.g. `/radarzoom 1200`. See https://natives.altv.mp/#/0x096EF57A0C999BBA)

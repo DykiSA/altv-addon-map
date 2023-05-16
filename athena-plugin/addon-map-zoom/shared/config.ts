@@ -9,7 +9,7 @@ export const PluginConfig = {
     }
 }
 
-export const ZoomDataLevels: Array<MapZoomConfig> = [
+export const zoomDataLevels: Array<MapZoomConfig> = [
     {
         level: 'ZOOM_LEVEL_0',
         zoomScale: 0.96,
